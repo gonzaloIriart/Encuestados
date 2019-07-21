@@ -11,6 +11,9 @@ var VistaAdministrador = function(modelo, controlador, elementos) {
   this.modelo.preguntaAgregada.suscribir(function() {
     contexto.reconstruirLista();
   });
+  this.modelo.preguntaBorrada.suscribir(function(){
+    contexto.reconstruirLista();
+  })
 };
 
 
@@ -29,17 +32,17 @@ VistaAdministrador.prototype = {
     //asignar a nuevoitem un elemento li con clase "list-group-item", id "pregunta.id" y texto "pregunta.textoPregunta"
     var nuevoItem = document.createElement("li");
     nuevoItem.className = "list-group-item";
-    nuevoItem.id = "pregunta.id";
+    nuevoItem.id = pregunta.id;
     var newContent = document.createTextNode(pregunta.textoPregunta); 
     nuevoItem.appendChild(newContent);    
-    
+
     var interiorItem = $('.d-flex');
     var titulo = interiorItem.find('h5');
     titulo.text(pregunta.textoPregunta);
     interiorItem.find('small').text(pregunta.cantidadPorRespuesta.map(function(resp){
       return " " + resp.textoRespuesta;
-    }));
-    nuevoItem.html($('.d-flex').html());
+    }));    
+    $('.d-flex').html(nuevoItem);
     return nuevoItem;
   },
 
@@ -69,6 +72,12 @@ VistaAdministrador.prototype = {
       contexto.controlador.agregarPregunta(value, respuestas);
     });
     //asociar el resto de los botones a eventos
+
+    //Funcionalidad del boton borrar al ser clickeado, obtiene el id de la ultima pregunta clickeada y se pasa al controlador.
+    e.botonBorrarPregunta.click(function(){
+      var id = parseInt($('.list-group-item.active').attr('id'));
+      contexto.controlador.borrarPregunta(id);
+    });
   },
 
   limpiarFormulario: function(){
