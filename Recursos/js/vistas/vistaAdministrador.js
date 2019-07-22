@@ -38,7 +38,9 @@ VistaAdministrador.prototype = {
     var titulo = interiorItem.find('h5');
     titulo.text(pregunta.textoPregunta);
     interiorItem.find('small').text(pregunta.cantidadPorRespuesta.map(function(resp){
-      return " " + resp.textoRespuesta;
+      if(resp !== ''){
+        return " " + resp.textoRespuesta;
+      }      
     }));        
     nuevoItem.html(interiorItem.html());
     return nuevoItem;
@@ -63,9 +65,11 @@ VistaAdministrador.prototype = {
       var respuestas = [];
 
       $('[name="option[]"]').each(function() {
-        respuesta = $(this).val();
-        respuestas.push({'textoRespuesta': respuesta, 'cantidad': 1})
-      })
+        if(respuesta !== ''){
+          respuesta = $(this).val();
+          respuestas.push({'textoRespuesta': respuesta, 'cantidad': 1});
+        }        
+      });
       contexto.limpiarFormulario();
       contexto.controlador.agregarPregunta(value, respuestas);
     });

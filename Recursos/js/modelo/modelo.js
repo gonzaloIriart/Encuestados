@@ -48,4 +48,8 @@ Modelo.prototype = {
       this.guardar(this.preguntas);
       this.borrarTodo.notificar();    
   },
+
+  agregarVoto: function(nombrePregunta,respuestaSeleccionada) {
+    this.preguntas[nombrePregunta][respuestaSeleccionada].cantidadPorRespuesta++;
+  }
 };
