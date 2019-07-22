@@ -13,6 +13,9 @@ var VistaAdministrador = function(modelo, controlador, elementos) {
   });
   this.modelo.preguntaBorrada.suscribir(function(){
     contexto.reconstruirLista();
+  });
+  this.modelo.borrarTodo.suscribir(function(){
+    contexto.reconstruirLista();
   })
 };
 
@@ -30,19 +33,14 @@ VistaAdministrador.prototype = {
     var contexto = this;
     //completar
     //asignar a nuevoitem un elemento li con clase "list-group-item", id "pregunta.id" y texto "pregunta.textoPregunta"
-    var nuevoItem = document.createElement("li");
-    nuevoItem.className = "list-group-item";
-    nuevoItem.id = pregunta.id;
-    var newContent = document.createTextNode(pregunta.textoPregunta); 
-    nuevoItem.appendChild(newContent);    
-
+    var nuevoItem = $('<li class ="list-group-item" id='+pregunta.id+'>'+pregunta.textoPregunta+'</li>');
     var interiorItem = $('.d-flex');
     var titulo = interiorItem.find('h5');
     titulo.text(pregunta.textoPregunta);
     interiorItem.find('small').text(pregunta.cantidadPorRespuesta.map(function(resp){
       return " " + resp.textoRespuesta;
-    }));    
-    $('.d-flex').html(nuevoItem);
+    }));        
+    nuevoItem.html(interiorItem.html());
     return nuevoItem;
   },
 
@@ -66,7 +64,7 @@ VistaAdministrador.prototype = {
 
       $('[name="option[]"]').each(function() {
         respuesta = $(this).val();
-        respuestas.push({'textoRespuesta': respuesta, 'cantidad': 0})
+        respuestas.push({'textoRespuesta': respuesta, 'cantidad': 1})
       })
       contexto.limpiarFormulario();
       contexto.controlador.agregarPregunta(value, respuestas);
@@ -77,6 +75,10 @@ VistaAdministrador.prototype = {
     e.botonBorrarPregunta.click(function(){
       var id = parseInt($('.list-group-item.active').attr('id'));
       contexto.controlador.borrarPregunta(id);
+    });
+
+    e.borrarTodo.click(function(){
+      contexto.controlador.borrarTodo();
     });
   },
 
