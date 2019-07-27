@@ -16,7 +16,12 @@ Controlador.prototype = {
     this.modelo.borrarTodasLasPreguntas();
   },
   agregarVoto: function(nombrePregunta,respuestaSeleccionada){
+    console.log('controlador click')
     this.modelo.agregarVoto(nombrePregunta,respuestaSeleccionada);
+  },
+  obtenerLista: function(){
+    var guardado = localStorage.getItem('preguntas');
+    return JSON.parse(guardado);
   }
 
 };

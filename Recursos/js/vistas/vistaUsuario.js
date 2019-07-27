@@ -11,6 +11,9 @@ var VistaUsuario = function(modelo, controlador, elementos) {
   this.modelo.preguntaAgregada.suscribir(function() {
     contexto.reconstruirLista();
   });
+  this.modelo.agregarVoto.suscribir(function() {
+    contexto.dibujarGrafico();
+  })
 };
 
 VistaUsuario.prototype = {
@@ -21,7 +24,7 @@ VistaUsuario.prototype = {
     var contexto = this;
     
     elementos.botonAgregar.click(function() {
-      contexto.agregarVotos(); 
+      contexto.botonAgregar(); 
     });
       
     this.reconstruirGrafico();
@@ -31,8 +34,7 @@ VistaUsuario.prototype = {
   reconstruirGrafico: function(){
     var contexto = this;
     //obtiene las preguntas del local storage
-    var guardado = localStorage.getItem('preguntas');
-    var preguntas = JSON.parse(guardado);
+    var preguntas = this.controlador.obtenerLista();
     preguntas.forEach(function(clave){
       var listaParaGrafico = [[clave.textoPregunta, 'Cantidad']];
       var respuestas = clave.cantidadPorRespuesta;
@@ -48,7 +50,7 @@ VistaUsuario.prototype = {
     var listaPreguntas = this.elementos.listaPreguntas;
     listaPreguntas.html('');
     var contexto = this;
-    var preguntas = this.modelo.preguntas;
+    var preguntas = this.controlador.obtenerLista();
     preguntas.forEach(function(clave){
       //completar
       //agregar a listaPreguntas un elemento div con valor "clave.textoPregunta", texto "clave.textoPregunta", id "clave.id"
@@ -74,15 +76,20 @@ VistaUsuario.prototype = {
     });
   },
 
-  agregarVotos: function(){
+  botonAgregar: function(){
+    console.log('click')
     var contexto = this;
+    console.log($(':checked').val())
     $('#preguntas').find('div').each(function(){
         var nombrePregunta = $(this).attr('value');
+        console.log(nombrePregunta)
         var id = $(this).attr('id');
         var respuestaSeleccionada = $('input[name=' + id + ']:checked').val();
         $('input[name=' + id + ']').prop('checked',false);
-        contexto.controlador.agregarVoto(nombrePregunta,respuestaSeleccionada);
+        console.log(nombrePregunta,respuestaSeleccionada)
+        contexto.controlador.agregarVoto(nombrePregunta,respuestaSeleccionada);        
       });
+
   },
 
   dibujarGrafico: function(nombre, respuestas){

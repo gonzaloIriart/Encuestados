@@ -9,6 +9,7 @@ var Modelo = function() {
   this.preguntaAgregada = new Evento(this);
   this.preguntaBorrada = new Evento(this);
   this.borrarTodo = new Evento(this);
+  this.agregarVoto = new Evento(this)
 };
 
 Modelo.prototype = {
@@ -30,6 +31,7 @@ Modelo.prototype = {
   //se guardan las preguntas
   guardar: function(preguntas){
     localStorage.setItem('preguntas' , JSON.stringify(preguntas))
+    this.preguntas = preguntas;
   },
 
   //borra una pregunta por su id
@@ -50,6 +52,12 @@ Modelo.prototype = {
   },
 
   agregarVoto: function(nombrePregunta,respuestaSeleccionada) {
-    this.preguntas[nombrePregunta][respuestaSeleccionada].cantidadPorRespuesta++;
+    var pregSeleccionada = this.preguntas.find(pregunta=>{
+      return pregunta.textoPregunta === nombrePregunta;
+    })
+    pregSeleccionada.cantidadPorRespuesta++;
+    this.guardar(this.preguntas);
+    this.agregarVoto.notificar();
+    console.log(rtaSeleccionada)
   }
 };

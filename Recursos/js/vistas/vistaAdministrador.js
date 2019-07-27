@@ -49,7 +49,7 @@ VistaAdministrador.prototype = {
   reconstruirLista: function() {
     var lista = this.elementos.lista;
     lista.html('');
-    var preguntas = JSON.parse(localStorage.getItem('preguntas'));
+    var preguntas = this.controlador.obtenerLista();
     for (var i=0;i<preguntas.length;++i){
       lista.append(this.construirElementoPregunta(preguntas[i]));
     }
@@ -68,7 +68,7 @@ VistaAdministrador.prototype = {
         
           respuesta = $(this).val();
           if(respuesta !== ''){
-          respuestas.push({'textoRespuesta': respuesta, 'cantidad': 1});
+          respuestas.push({'textoRespuesta': respuesta, 'cantidad': 0});
         }        
       });
       contexto.limpiarFormulario();
