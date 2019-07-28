@@ -11,8 +11,8 @@ var VistaUsuario = function(modelo, controlador, elementos) {
   this.modelo.preguntaAgregada.suscribir(function() {
     contexto.reconstruirLista();
   });
-  this.modelo.agregarVoto.suscribir(function() {
-    contexto.dibujarGrafico();
+  this.modelo.agregarVotos.suscribir(function(a,b) {
+    contexto.dibujarGrafico(a,b);
   })
 };
 
@@ -54,8 +54,8 @@ VistaUsuario.prototype = {
     preguntas.forEach(function(clave){
       //completar
       //agregar a listaPreguntas un elemento div con valor "clave.textoPregunta", texto "clave.textoPregunta", id "clave.id"
-      var nuevoItem = $('<div id='+clave.id+'>'+clave.textoPregunta+'</div>');
-      listaPreguntas.append(nuevoItem.html())
+      var nuevoItem = $('<div id='+clave.id+' value='+clave.textoPregunta+'>'+clave.textoPregunta+'</div>');
+      listaPreguntas.append(nuevoItem)
       var respuestas = clave.cantidadPorRespuesta;
       contexto.mostrarRespuestas(listaPreguntas,respuestas, clave);
     })
@@ -77,17 +77,13 @@ VistaUsuario.prototype = {
   },
 
   botonAgregar: function(){
-    console.log('click')
     var contexto = this;
-    console.log($(':checked').val())
     $('#preguntas').find('div').each(function(){
         var nombrePregunta = $(this).attr('value');
-        console.log(nombrePregunta)
         var id = $(this).attr('id');
         var respuestaSeleccionada = $('input[name=' + id + ']:checked').val();
         $('input[name=' + id + ']').prop('checked',false);
-        console.log(nombrePregunta,respuestaSeleccionada)
-        contexto.controlador.agregarVoto(nombrePregunta,respuestaSeleccionada);        
+        contexto.controlador.agregarVotos(nombrePregunta,respuestaSeleccionada);        
       });
 
   },

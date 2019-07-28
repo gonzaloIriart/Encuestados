@@ -9,7 +9,7 @@ var Modelo = function() {
   this.preguntaAgregada = new Evento(this);
   this.preguntaBorrada = new Evento(this);
   this.borrarTodo = new Evento(this);
-  this.agregarVoto = new Evento(this)
+  this.agregarVotos = new Evento(this)
 };
 
 Modelo.prototype = {
@@ -44,6 +44,11 @@ Modelo.prototype = {
       }
     }
   },
+
+  obtenerLista: function(){
+    var guardado = localStorage.getItem('preguntas');
+    return JSON.parse(guardado);
+  },
   
   borrarTodasLasPreguntas: function() {    
       this.preguntas = [];
@@ -52,12 +57,17 @@ Modelo.prototype = {
   },
 
   agregarVoto: function(nombrePregunta,respuestaSeleccionada) {
-    var pregSeleccionada = this.preguntas.find(pregunta=>{
+    var preguntas = this.obtenerLista();
+    var respuestas = preguntas.find(pregunta=>{
       return pregunta.textoPregunta === nombrePregunta;
-    })
-    pregSeleccionada.cantidadPorRespuesta++;
-    this.guardar(this.preguntas);
-    this.agregarVoto.notificar();
-    console.log(rtaSeleccionada)
+    }).cantidadPorRespuesta;
+
+    respuestas.find(rta=>{
+      return rta.textoRespuesta === respuestaSeleccionada;
+    }).cantidad++;
+
+    this.guardar(preguntas);
+    this.agregarVotos.notificar(nombrePregunta,respuestas);
+    
   }
 };

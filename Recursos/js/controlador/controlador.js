@@ -15,7 +15,7 @@ Controlador.prototype = {
   borrarTodo: function(){
     this.modelo.borrarTodasLasPreguntas();
   },
-  agregarVoto: function(nombrePregunta,respuestaSeleccionada){
+  agregarVotos: function(nombrePregunta,respuestaSeleccionada){
     console.log('controlador click')
     this.modelo.agregarVoto(nombrePregunta,respuestaSeleccionada);
   },
