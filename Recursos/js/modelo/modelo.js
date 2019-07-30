@@ -23,6 +23,7 @@ Modelo.prototype = {
     var id = this.obtenerUltimoId();
     id++;
     var nuevaPregunta = {'textoPregunta': nombre, 'id': id, 'cantidadPorRespuesta': respuestas};
+    this.preguntas = this.obtenerLista();
     this.preguntas.push(nuevaPregunta);
     this.guardar(this.preguntas);
     this.preguntaAgregada.notificar();

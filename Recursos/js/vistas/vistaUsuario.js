@@ -12,7 +12,7 @@ var VistaUsuario = function(modelo, controlador, elementos) {
     contexto.reconstruirLista();
   });
   this.modelo.agregarVotos.suscribir(function(a,b) {
-    contexto.dibujarGrafico(a,b);
+    contexto.reconstruirGrafico();
   })
 };
 
