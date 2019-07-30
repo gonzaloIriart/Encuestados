@@ -7,7 +7,12 @@ var Controlador = function(modelo) {
 
 Controlador.prototype = {
   agregarPregunta: function(pregunta, respuestas) {
-    this.modelo.agregarPregunta(pregunta, respuestas);
+    if(pregunta !== '' && respuestas.includes('')){
+      this.modelo.agregarPregunta(pregunta, respuestas);
+    }else{
+      alert('La pregunta o respuesta no pueden estar vacias')
+    }
+    
   },
   borrarPregunta: function(id) {
     this.modelo.borrarPregunta(id);
