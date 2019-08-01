@@ -47,8 +47,11 @@ Modelo.prototype = {
   },
 
   obtenerLista: function(){
-    var guardado = localStorage.getItem('preguntas');
-    return JSON.parse(guardado);
+    var guardado = JSON.parse(localStorage.getItem('preguntas'));
+    if(guardado === null){
+      guardado = [];
+    }
+    return guardado;
   },
   
   borrarTodasLasPreguntas: function() {    
